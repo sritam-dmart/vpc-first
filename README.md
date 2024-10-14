@@ -113,6 +113,11 @@ This guide outlines the steps to create a Virtual Machine (VM) instance in Googl
 
 ## Step 10: Connect to Your VM
 1. Once the VM is running, you can connect to it using SSH by clicking the **SSH** button next to your instance on the VM instances page.
+2. After SSHing into the VM, run the following command to check the public IP of the instance:
+```bash
+curl ifconfig.me
+
+```
 
 ---
 
