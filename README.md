@@ -62,6 +62,8 @@ gcloud compute firewall-rules create vpc-02-allow-ssh --project=velocity-406304 
 
 ```
 
+
+
 # Creating a VM Instance in Google Cloud Console
 
 This guide outlines the steps to create a Virtual Machine (VM) instance in Google Cloud Console using a pre-existing VPC network.
@@ -117,3 +119,7 @@ This guide outlines the steps to create a Virtual Machine (VM) instance in Googl
 ```bash
 gcloud compute instances create instance-02 --project=velocity-406304 --zone=us-central1-f --machine-type=f1-micro --network-interface=network-tier=STANDARD,stack-type=IPV4_ONLY,subnet=vpc-02 --maintenance-policy=MIGRATE --provisioning-model=STANDARD --service-account=893106818560-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/trace.append --create-disk=auto-delete=yes,boot=yes,device-name=instance-02,image=projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20240830,mode=rw,size=10,type=pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --labels=goog-ec-src=vm_add-gcloud --reservation-affinity=any
 ```
+
+## Architecture Diagram
+
+![Architecture Diagram](vpc-example.png)
