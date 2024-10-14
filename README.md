@@ -50,67 +50,14 @@
 You can use the following script to create a VPC network and associated firewall rules using the `gcloud` command-line tool:
 
 ```bash
-# Set environment variables
-PROJECT_ID="velocity-406304"
-VPC_NAME="vpc-02"
-VPC_DESC="example vpc for learning. created by sritam"
-SUBNET_MODE="auto"
-MTU="1460"
-BGP_ROUTING_MODE="regional"
-BGP_BEST_PATH_SELECTION_MODE="legacy"
-FIREWALL_PRIORITY="65534"
-SOURCE_RANGES="0.0.0.0/0"
-CUSTOM_SOURCE_RANGES="10.128.0.0/9"
+gcloud compute networks create vpc-02 --project=velocity-406304 --description=example\ vpc\ for\ learning.\ created\ by\ sritam --subnet-mode=auto --mtu=1460 --bgp-routing-mode=regional --bgp-best-path-selection-mode=legacy
 
-# Create VPC Network
-gcloud compute networks create $VPC_NAME \
-  --project=$PROJECT_ID \
-  --description="$VPC_DESC" \
-  --subnet-mode=$SUBNET_MODE \
-  --mtu=$MTU \
-  --bgp-routing-mode=$BGP_ROUTING_MODE \
-  --bgp-best-path-selection-mode=$BGP_BEST_PATH_SELECTION_MODE
+gcloud compute firewall-rules create vpc-02-allow-custom --project=velocity-406304 --network=projects/velocity-406304/global/networks/vpc-02 --description=Allows\ connection\ from\ any\ source\ to\ any\ instance\ on\ the\ network\ using\ custom\ protocols. --direction=INGRESS --priority=65534 --source-ranges=10.128.0.0/9 --action=ALLOW --rules=all
 
-# Create Firewall Rule for Custom Protocols
-gcloud compute firewall-rules create "${VPC_NAME}-allow-custom" \
-  --project=$PROJECT_ID \
-  --network=projects/$PROJECT_ID/global/networks/$VPC_NAME \
-  --description="Allows connection from any source to any instance on the network using custom protocols." \
-  --direction=INGRESS \
-  --priority=$FIREWALL_PRIORITY \
-  --source-ranges=$CUSTOM_SOURCE_RANGES \
-  --action=ALLOW \
-  --rules=all
+gcloud compute firewall-rules create vpc-02-allow-icmp --project=velocity-406304 --network=projects/velocity-406304/global/networks/vpc-02 --description=Allows\ ICMP\ connections\ from\ any\ source\ to\ any\ instance\ on\ the\ network. --direction=INGRESS --priority=65534 --source-ranges=0.0.0.0/0 --action=ALLOW --rules=icmp
 
-# Create Firewall Rule for ICMP
-gcloud compute firewall-rules create "${VPC_NAME}-allow-icmp" \
-  --project=$PROJECT_ID \
-  --network=projects/$PROJECT_ID/global/networks/$VPC_NAME \
-  --description="Allows ICMP connections from any source to any instance on the network." \
-  --direction=INGRESS \
-  --priority=$FIREWALL_PRIORITY \
-  --source-ranges=$SOURCE_RANGES \
-  --action=ALLOW \
-  --rules=icmp
+gcloud compute firewall-rules create vpc-02-allow-rdp --project=velocity-406304 --network=projects/velocity-406304/global/networks/vpc-02 --description=Allows\ RDP\ connections\ from\ any\ source\ to\ any\ instance\ on\ the\ network\ using\ port\ 3389. --direction=INGRESS --priority=65534 --source-ranges=0.0.0.0/0 --action=ALLOW --rules=tcp:3389
 
-# Create Firewall Rule for RDP
-gcloud compute firewall-rules create "${VPC_NAME}-allow-rdp" \
-  --project=$PROJECT_ID \
-  --network=projects/$PROJECT_ID/global/networks/$VPC_NAME \
-  --description="Allows RDP connections from any source to any instance on the network using port 3389." \
-  --direction=INGRESS \
-  --priority=$FIREWALL_PRIORITY \
-  --source-ranges=$SOURCE_RANGES \
-  --action=ALLOW \
-  --rules=tcp:3389
+gcloud compute firewall-rules create vpc-02-allow-ssh --project=velocity-406304 --network=projects/velocity-406304/global/networks/vpc-02 --description=Allows\ TCP\ connections\ from\ any\ source\ to\ any\ instance\ on\ the\ network\ using\ port\ 22. --direction=INGRESS --priority=65534 --source-ranges=0.0.0.0/0 --action=ALLOW --rules=tcp:22
 
-# Create Firewall Rule for SSH
-gcloud compute firewall-rules create "${VPC_NAME}-allow-ssh" \
-  --project=$PROJECT_ID \
-  --network=projects/$PROJECT_ID/global/networks/$VPC_NAME \
-  --description="Allows TCP connections from any source to any instance on the network using port 22." \
-  --direction=INGRESS \
-  --priority=$FIREWALL_PRIORITY \
-  --source-ranges=$SOURCE_RANGES \
-  --action=ALLOW \
-  --rules=tcp:22
+```bash
