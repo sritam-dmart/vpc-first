@@ -122,4 +122,4 @@ gcloud compute instances create instance-02 --project=velocity-406304 --zone=us-
 
 ## Architecture Diagram
 
-![Architecture Diagram](vpc-example.png)
+![Architecture Diagram](image/vpc-example.png)
